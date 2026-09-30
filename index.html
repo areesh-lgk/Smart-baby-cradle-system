@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Cradle AI - Emotion-Aware Baby Monitoring & Intelligent Cradle System. SIH Hackathon Prototype.">
+    <title>Smart Cradle AI | Emotion-Aware Baby Monitoring & Cradle System</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- TOP HEADER / NAVBAR -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand-wrapper" onclick="navigateTo('landing')">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-baby-carriage glow-icon"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">SMART CRADLE <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Emotion-Aware Baby Monitoring</span>
+                </div>
+                <span class="sih-badge"><i class="fa-solid fa-award"></i> SIH HACKATHON PROTOTYPE</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="main-nav">
+                <button class="nav-btn active" data-target="landing" onclick="navigateTo('landing')">
+                    <i class="fa-solid fa-house"></i> Home
+                </button>
+                <button class="nav-btn" data-target="dashboard" onclick="navigateTo('dashboard')">
+                    <i class="fa-solid fa-chart-line"></i> Live Dashboard
+                </button>
+                <button class="nav-btn" data-target="analysis" onclick="navigateTo('analysis')">
+                    <i class="fa-solid fa-brain"></i> Cry Analysis
+                </button>
+                <button class="nav-btn" data-target="sensors" onclick="navigateTo('sensors')">
+                    <i class="fa-solid fa-microchip"></i> Sensors
+                </button>
+                <button class="nav-btn" data-target="cradle" onclick="navigateTo('cradle')">
+                    <i class="fa-solid fa-sliders"></i> Cradle Control
+                </button>
+                <button class="nav-btn" data-target="alerts" onclick="navigateTo('alerts')">
+                    <i class="fa-solid fa-bell"></i> Alerts <span class="badge-count" id="navAlertCount">2</span>
+                </button>
+                <button class="nav-btn" data-target="analytics" onclick="navigateTo('analytics')">
+                    <i class="fa-solid fa-chart-pie"></i> Analytics
+                </button>
+                <button class="nav-btn" data-target="architecture" onclick="navigateTo('architecture')">
+                    <i class="fa-solid fa-network-wired"></i> Architecture
+                </button>
+                <button class="nav-btn" data-target="about" onclick="navigateTo('about')">
+                    <i class="fa-solid fa-circle-info"></i> About
+                </button>
+                <button class="nav-btn" data-target="settings" onclick="navigateTo('settings')">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </button>
+            </nav>
+
+            <!-- Header Action Controls -->
+            <div class="header-actions">
+                <button class="btn btn-demo pulse-btn" onclick="startDemoMode()">
+                    <i class="fa-solid fa-play"></i> DEMO MODE
+                </button>
+                <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" id="themeToggleBtn">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- System Status Bar -->
+        <div class="top-status-bar">
+            <div class="status-items">
+                <span class="status-item online"><i class="fa-solid fa-circle-dot"></i> System Online</span>
+                <span class="status-item connected" id="espStatus"><i class="fa-solid fa-wifi"></i> ESP32 Connected</span>
+                <span class="status-item ai-ready"><i class="fa-solid fa-brain"></i> AI Model Ready (v2.4)</span>
+                <span class="status-item cloud-ok"><i class="fa-solid fa-cloud"></i> Cloud Sync Active</span>
+            </div>
+            <div class="live-clock-wrapper">
+                <i class="fa-regular fa-clock"></i> <span id="realtimeClock">00:00:00 AM</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINERS (SPA NAVIGATION) -->
+    <main class="app-main">
+
+        <!-- ================= PAGE 1: LANDING / HOME ================= -->
+        <section id="landing" class="page-view active">
+            <div class="hero-section glass-card">
+                <div class="hero-content">
+                    <div class="tagline-pill">
+                        <i class="fa-solid fa-sparkles"></i> Listen. Understand. Respond. Care.
+                    </div>
+                    <h1 class="hero-title">Smart Cradle <span class="gradient-text">AI</span></h1>
+                    <h2 class="hero-subtitle">Emotion-Aware Cry Recognition for Intelligent Baby Care</h2>
+                    <p class="hero-description">
+                        An AI and IoT powered smart cradle prototype that analyzes baby cry patterns, monitors environmental conditions, automatically responds to detected needs, and keeps parents informed in real time.
+                    </p>
+
+                    <div class="hero-cta">
+                        <button class="btn btn-primary btn-lg" onclick="navigateTo('dashboard')">
+                            <i class="fa-solid fa-gauge-high"></i> Open Live Dashboard
+                        </button>
+                        <button class="btn btn-secondary btn-lg" onclick="navigateTo('architecture')">
+                            <i class="fa-solid fa-network-wired"></i> View System Architecture
+                        </button>
+                        <button class="btn btn-demo-hero btn-lg" onclick="startDemoMode()">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Run Interactive Demo
+                        </button>
+                    </div>
+
+                    <div class="disclaimer-box">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Prototype system for demonstration and research purposes. AI classifications are supportive estimates and are not medical diagnoses.</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="cradle-hero-container">
+                        <!-- Animated SVG visualizer for Hero -->
+                        <div class="hero-cradle-glow"></div>
+                        <svg class="hero-cradle-svg" viewBox="0 0 400 300">
+                            <!-- Base frame -->
+                            <path d="M 80 250 L 320 250" stroke="var(--accent-cyan)" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M 120 250 L 100 130 L 140 130 Z" fill="none" stroke="var(--border-color)" stroke-width="4"/>
+                            <path d="M 280 250 L 300 130 L 260 130 Z" fill="none" stroke="var(--border-color)" stroke-width="4"/>
+                            
+                            <!-- Cradle basket with swinging animation class -->
+                            <g class="hero-swinging-basket">
+                                <line x1="120" y1="130" x2="140" y2="190" stroke="var(--accent-blue)" stroke-width="3"/>
+                                <line x1="280" y1="130" x2="260" y2="190" stroke="var(--accent-blue)" stroke-width="3"/>
+                                <rect x="130" y="180" width="140" height="60" rx="15" fill="url(#heroCradleGrad)" stroke="var(--accent-cyan)" stroke-width="2"/>
+                                <!-- Baby icon simulation inside cradle -->
+                                <circle cx="160" cy="200" r="12" fill="#FFE0BD"/>
+                                <path d="M 175 210 Q 200 200 240 215" stroke="var(--accent-blue)" stroke-width="8" stroke-linecap="round"/>
+                                <circle cx="156" cy="198" r="2" fill="#333"/>
+                                <circle cx="164" cy="198" r="2" fill="#333"/>
+                            </g>
+
+                            <!-- AI Signal Waves -->
+                            <g class="wave-lines">
+                                <path class="pulse-wave-1" d="M 50 100 Q 100 60 150 100 T 250 100 T 350 100" fill="none" stroke="var(--accent-cyan)" stroke-width="3" opacity="0.6"/>
+                                <path class="pulse-wave-2" d="M 50 110 Q 100 150 150 110 T 250 110 T 350 110" fill="none" stroke="var(--accent-blue)" stroke-width="2" opacity="0.4"/>
+                            </g>
+
+                            <!-- Sensor nodes glowing -->
+                            <circle cx="90" cy="125" r="8" fill="var(--accent-cyan)" class="node-glow"/>
+                            <text x="90" y="110" font-size="10" fill="var(--text-muted)" text-anchor="middle">Mic</text>
+                            
+                            <circle cx="310" cy="125" r="8" fill="var(--accent-blue)" class="node-glow"/>
+                            <text x="310" y="110" font-size="10" fill="var(--text-muted)" text-anchor="middle">DHT22</text>
+
+                            <circle cx="200" cy="80" r="10" fill="var(--warning)" class="node-glow"/>
+                            <text x="200" y="65" font-size="10" fill="var(--text-muted)" text-anchor="middle">AI Model</text>
+
+                            <defs>
+                                <linearGradient id="heroCradleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="rgba(14, 165, 233, 0.2)"/>
+                                    <stop offset="100%" stop-color="rgba(99, 102, 241, 0.4)"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="visual-badge">
+                            <i class="fa-solid fa-bolt"></i> Real-time AI + IoT Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEATURES CARDS GRID -->
+            <div class="feature-grid">
+                <div class="feature-card glass-card">
+                    <div class="feature-icon text-cyan">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                    <h3>AI Cry Recognition</h3>
+                    <p>Advanced deep learning audio processing pipeline to isolate baby cry signals from environmental ambient noise.</p>
+                </div>
+
+                <div class="feature-card glass-card">
+                    <div class="feature-icon text-blue">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>Emotion-Aware Analysis</h3>
+                    <p>Classifies acoustic pitch, frequency, and intensity into probable need categories: Hungry, Sleepy, Discomfort, or Abnormal.</p>
+                </div>
+
+                <div class="feature-card glass-card">
+                    <div class="feature-icon text-indigo">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3>Smart Cradle Automation</h3>
+                    <p>Automated gentle swinging speeds and integrated lullaby audio activation tailor-matched to the baby's detected state.</p>
+                </div>
+
+                <div class="feature-card glass-card">
+                    <div class="feature-icon text-warning">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <h3>Real-Time Parent Alerts</h3>
+                    <p>Instant alerts pushed to web notifications and cloud dashboard when unusual crying patterns or sensor anomalies occur.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: LIVE DASHBOARD ================= -->
+        <section id="dashboard" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-gauge-high"></i> Live Monitoring Dashboard</h2>
+                    <p class="subtitle">Real-time status overview of baby state, IoT sensors, and cradle actuation</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="triggerSimulatedCry('Sleepy')">
+                        <i class="fa-solid fa-bed"></i> Simulate Sleepy Cry
+                    </button>
+                    <button class="btn btn-secondary btn-sm" onclick="triggerSimulatedCry('Hungry')">
+                        <i class="fa-solid fa-utensils"></i> Simulate Hungry Cry
+                    </button>
+                    <button class="btn btn-warning btn-sm" onclick="triggerSimulatedCry('Abnormal')">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Simulate Anomaly
+                    </button>
+                </div>
+            </div>
+
+            <!-- DASHBOARD CARDS GRID -->
+            <div class="dashboard-grid">
+                
+                <!-- CARD 1: BABY STATUS -->
+                <div class="card glass-card baby-status-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-baby"></i> Baby Status</span>
+                        <span class="badge badge-success" id="babyStatusBadge">CALM</span>
+                    </div>
+                    <div class="card-body center-content">
+                        <div class="status-indicator-wrapper">
+                            <div class="status-ring pulse-green" id="babyStatusRing">
+                                <i class="fa-solid fa-face-smile" id="babyStatusIcon"></i>
+                            </div>
+                        </div>
+                        <h3 class="status-label" id="babyStatusText">Baby is Calm</h3>
+                        <p class="status-subtext">Resting comfortably in cradle</p>
+                        <div class="card-footer-info">
+                            <span>Last updated: <strong id="babyStatusLastUpdated">Just now</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: CRY DETECTION -->
+                <div class="card glass-card cry-detection-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-waveform"></i> Cry Detection</span>
+                        <span class="badge badge-warning" id="cryDetectedBadge">MONITORING</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric-display">
+                            <span class="metric-value" id="cryIntensityVal">14%</span>
+                            <span class="metric-label">Cry Intensity Level</span>
+                        </div>
+                        
+                        <div class="visualizer-box">
+                            <canvas id="liveWaveformCanvas" width="300" height="70"></canvas>
+                        </div>
+
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="cryIntensityBar" style="width: 14%;"></div>
+                        </div>
+                        
+                        <div class="card-footer-info">
+                            <span>Microphone: <strong class="text-cyan">INMP441 Active</strong></span>
+                            <span>Noise Floor: <strong>32 dB</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: AI ANALYSIS -->
+                <div class="card glass-card ai-analysis-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-brain"></i> AI Analysis</span>
+                        <span class="badge badge-info">PROBABLE PATTERN</span>
+                    </div>
+                    <div class="card-body center-content">
+                        <div class="circular-progress-box">
+                            <svg class="circular-progress" viewBox="0 0 100 100">
+                                <circle class="bg-ring" cx="50" cy="50" r="42"/>
+                                <circle class="fg-ring" id="confidenceRing" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="34"/>
+                            </svg>
+                            <div class="circular-text">
+                                <span class="confidence-num" id="aiConfidenceVal">87%</span>
+                                <span class="confidence-label">Confidence</span>
+                            </div>
+                        </div>
+
+                        <div class="detected-category-box">
+                            <span class="cat-label">Detected Category:</span>
+                            <h3 class="cat-value gradient-text" id="aiDetectedCategory">SLEEPY</h3>
+                        </div>
+
+                        <p class="disclaimer-mini">Supportive estimate based on audio spectral feature extraction.</p>
+                    </div>
+                </div>
+
+                <!-- CARD 4: CRADLE STATUS -->
+                <div class="card glass-card cradle-status-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-sliders"></i> Cradle Actuator</span>
+                        <span class="badge badge-primary" id="cradleModeBadge">AUTO MODE</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="cradle-mini-preview">
+                            <div class="mini-cradle-icon" id="miniCradleAnim">
+                                <i class="fa-solid fa-baby-carriage"></i>
+                            </div>
+                            <div class="cradle-stats">
+                                <div class="stat-row">
+                                    <span>Motor State:</span>
+                                    <strong id="cradleMotorState" class="text-success">ON</strong>
+                                </div>
+                                <div class="stat-row">
+                                    <span>Motion Pattern:</span>
+                                    <strong id="cradleMotionPattern">Gentle Sway</strong>
+                                </div>
+                                <div class="stat-row">
+                                    <span>Motor Speed:</span>
+                                    <strong id="cradleSpeedVal">35%</strong>
+                                </div>
+                                <div class="stat-row">
+                                    <span>Lullaby Audio:</span>
+                                    <strong id="cradleLullabyState" class="text-info">PLAYING</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cradle-actions-mini">
+                            <button class="btn btn-sm btn-outline" id="quickToggleMotorBtn" onclick="toggleCradleMotor()">
+                                <i class="fa-solid fa-power-off"></i> Toggle Motor
+                            </button>
+                            <button class="btn btn-sm btn-outline" onclick="navigateTo('cradle')">
+                                <i class="fa-solid fa-sliders"></i> Full Controls
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 5: ENVIRONMENT -->
+                <div class="card glass-card environment-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-temperature-half"></i> Room Environment</span>
+                        <span class="badge badge-success">OPTIMAL</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="env-metrics-grid">
+                            <div class="env-metric-item">
+                                <i class="fa-solid fa-thermometer text-warning"></i>
+                                <div class="env-data">
+                                    <span class="env-val" id="dashTemp">28.4°C</span>
+                                    <span class="env-lbl">Temperature</span>
+                                </div>
+                            </div>
+                            <div class="env-metric-item">
+                                <i class="fa-solid fa-droplet text-cyan"></i>
+                                <div class="env-data">
+                                    <span class="env-val" id="dashHumidity">62%</span>
+                                    <span class="env-lbl">Humidity</span>
+                                </div>
+                            </div>
+                            <div class="env-metric-item">
+                                <i class="fa-solid fa-wind text-info"></i>
+                                <div class="env-data">
+                                    <span class="env-val" id="dashAirQuality">Good (AQI 35)</span>
+                                    <span class="env-lbl">Air Quality</span>
+                                </div>
+                            </div>
+                            <div class="env-metric-item">
+                                <i class="fa-solid fa-bolt text-warning"></i>
+                                <div class="env-data">
+                                    <span class="env-val" id="dashVoltage">5.1 V</span>
+                                    <span class="env-lbl">ESP Power</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 6: BABY MOVEMENT -->
+                <div class="card glass-card movement-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-child"></i> Baby Movement</span>
+                        <span class="badge badge-info" id="movementBadge">NORMAL</span>
+                    </div>
+                    <div class="card-body center-content">
+                        <div class="movement-visualizer">
+                            <div class="radar-sweep"></div>
+                            <i class="fa-solid fa-person-breastfeeding movement-icon" id="movementIcon"></i>
+                        </div>
+                        <h4 class="mt-2">Movement Detected</h4>
+                        <p class="status-subtext" id="movementSubtext">Activity Level: Normal (MPU6050 Accelerometer)</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= LIVE AI CRY ANALYSIS ================= -->
+        <section id="analysis" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-brain"></i> AI Cry Pattern Recognition & Feature Extraction</h2>
+                    <p class="subtitle">Real-time acoustic spectral analysis and neural network classification</p>
+                </div>
+            </div>
+
+            <div class="analysis-panel glass-card">
+                <div class="panel-header-bar">
+                    <div class="audio-signal-title">
+                        <i class="fa-solid fa-microphone-lines text-cyan"></i>
+                        <span>LIVE AUDIO SIGNAL STREAM (INMP441 I2S MIC)</span>
+                    </div>
+                    <div class="analysis-controls">
+                        <button class="btn btn-secondary btn-sm" id="startListenBtn" onclick="startAudioListening()">
+                            <i class="fa-solid fa-play"></i> Start Listening
+                        </button>
+                        <button class="btn btn-outline btn-sm" id="stopListenBtn" onclick="stopAudioListening()" disabled>
+                            <i class="fa-solid fa-stop"></i> Stop Listening
+                        </button>
+                        <button class="btn btn-primary" id="triggerAnalysisBtn" onclick="triggerManualAnalysis()">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Cry Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Waveform Canvas -->
+                <div class="waveform-panel">
+                    <canvas id="fullAudioWaveformCanvas" width="900" height="150"></canvas>
+                    <div class="waveform-overlay-info">
+                        <span class="badge badge-info" id="listenStateBadge"><i class="fa-solid fa-circle-dot"></i> Live Listening Active</span>
+                        <span id="audioFreqInfo">Sampling Rate: 16,000 Hz | Frame Size: 512 samples</span>
+                    </div>
+                </div>
+
+                <!-- STEP-BY-STEP PIPELINE ANIMATION -->
+                <div class="pipeline-section">
+                    <h4 class="pipeline-title"><i class="fa-solid fa-diagram-project"></i> Real-time AI Processing Pipeline</h4>
+                    <div class="pipeline-steps" id="pipelineStepsContainer">
+                        <div class="step-card" id="step1">
+                            <div class="step-num">1</div>
+                            <div class="step-info">
+                                <span class="step-name">Listening</span>
+                                <span class="step-desc">Capturing Audio Stream</span>
+                            </div>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-card" id="step2">
+                            <div class="step-num">2</div>
+                            <div class="step-info">
+                                <span class="step-name">Processing</span>
+                                <span class="step-desc">FFT Spectrogram Filter</span>
+                            </div>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-card" id="step3">
+                            <div class="step-num">3</div>
+                            <div class="step-info">
+                                <span class="step-name">Feature Extract</span>
+                                <span class="step-desc">MFCC & Pitch Dynamics</span>
+                            </div>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-card" id="step4">
+                            <div class="step-num">4</div>
+                            <div class="step-info">
+                                <span class="step-name">AI Classification</span>
+                                <span class="step-desc">CNN Neural Net Model</span>
+                            </div>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-card" id="step5">
+                            <div class="step-num">5</div>
+                            <div class="step-info">
+                                <span class="step-name">Result</span>
+                                <span class="step-desc">Confidence Output</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESULTS & PROBABILITY CHART -->
+                <div class="analysis-results-grid">
+                    <div class="result-summary-box glass-card">
+                        <h3><i class="fa-solid fa-square-poll-vertical"></i> Classification Result</h3>
+                        
+                        <div class="result-card-main">
+                            <span class="lbl">Probable Cry Pattern</span>
+                            <div class="res-pattern gradient-text" id="analysisResultPattern">SLEEPY</div>
+                            <div class="res-confidence">
+                                <span>Confidence Rating:</span>
+                                <strong id="analysisResultConfidence" class="text-cyan">87%</strong>
+                            </div>
+                        </div>
+
+                        <div class="recommended-action-box">
+                            <i class="fa-solid fa-lightbulb text-warning"></i>
+                            <div>
+                                <strong>System Automated Recommendation:</strong>
+                                <p id="analysisRecommendation">Activate gentle cradle sway (35% speed) and play soothing lullaby track #1.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="probability-chart-box glass-card">
+                        <h3><i class="fa-solid fa-chart-bar"></i> Category Probability Breakdown</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="probabilityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: SENSOR MONITORING ================= -->
+        <section id="sensors" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-microchip"></i> IoT Sensor Telemetry</h2>
+                    <p class="subtitle">Live environmental & biometric telemetry feed from ESP32 connected sensors</p>
+                </div>
+                <div class="sensor-hardware-badges">
+                    <span class="badge badge-success"><i class="fa-solid fa-circle"></i> DHT22 Connected</span>
+                    <span class="badge badge-success"><i class="fa-solid fa-circle"></i> Microphone INMP441</span>
+                    <span class="badge badge-success"><i class="fa-solid fa-circle"></i> MPU6050 Motion</span>
+                    <span class="badge badge-success"><i class="fa-solid fa-circle"></i> ESP32 MCU</span>
+                </div>
+            </div>
+
+            <!-- SENSOR CARDS GRID -->
+            <div class="sensor-cards-grid">
+                <div class="sensor-mini-card glass-card">
+                    <div class="sensor-icon text-warning"><i class="fa-solid fa-temperature-three-quarters"></i></div>
+                    <div class="sensor-details">
+                        <span class="s-label">Ambient Temperature</span>
+                        <span class="s-value" id="sensTemp">28.4 °C</span>
+                        <span class="s-status text-success"><i class="fa-solid fa-check"></i> Normal Range (22 - 30°C)</span>
+                    </div>
+                </div>
+
+                <div class="sensor-mini-card glass-card">
+                    <div class="sensor-icon text-cyan"><i class="fa-solid fa-droplet"></i></div>
+                    <div class="sensor-details">
+                        <span class="s-label">Relative Humidity</span>
+                        <span class="s-value" id="sensHumidity">62 %</span>
+                        <span class="s-status text-success"><i class="fa-solid fa-check"></i> Optimal Moisture</span>
+                    </div>
+                </div>
+
+                <div class="sensor-mini-card glass-card">
+                    <div class="sensor-icon text-blue"><i class="fa-solid fa-child"></i></div>
+                    <div class="sensor-details">
+                        <span class="s-label">Baby Movement (Accel)</span>
+                        <span class="s-value" id="sensMovement">0.12 g</span>
+                        <span class="s-status text-info"><i class="fa-solid fa-circle-info"></i> Normal Resting Motion</span>
+                    </div>
+                </div>
+
+                <div class="sensor-mini-card glass-card">
+                    <div class="sensor-icon text-danger"><i class="fa-solid fa-volume-high"></i></div>
+                    <div class="sensor-details">
+                        <span class="s-label">Cry Audio Intensity</span>
+                        <span class="s-value" id="sensCryIntensity">78 %</span>
+                        <span class="s-status text-warning"><i class="fa-solid fa-triangle-exclamation"></i> Moderate Audio Spike</span>
+                    </div>
+                </div>
+
+                <div class="sensor-mini-card glass-card">
+                    <div class="sensor-icon text-indigo"><i class="fa-solid fa-arrows-spin"></i></div>
+                    <div class="sensor-details">
+                        <span class="s-label">Cradle Vibration</span>
+                        <span class="s-value" id="sensVibration">Normal</span>
+                        <span class="s-status text-success"><i class="fa-solid fa-check"></i> Smooth Rocking</span>
+                    </div>
+                </div>
+
+                <div class="sensor-mini-card glass-card">
+                    <div class="sensor-icon text-success"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="sensor-details">
+                        <span class="s-label">System Supply Voltage</span>
+                        <span class="s-value" id="sensVoltage">5.10 V</span>
+                        <span class="s-status text-success"><i class="fa-solid fa-check"></i> Stable USB-C Power</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REAL-TIME CHARTS GRID -->
+            <div class="charts-grid mt-4">
+                <div class="chart-card glass-card">
+                    <div class="chart-header">
+                        <span><i class="fa-solid fa-temperature-half text-warning"></i> Temperature History (°C)</span>
+                        <span class="live-tag">LIVE DATA</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="tempSensorChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card glass-card">
+                    <div class="chart-header">
+                        <span><i class="fa-solid fa-droplet text-cyan"></i> Humidity History (%)</span>
+                        <span class="live-tag">LIVE DATA</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="humiditySensorChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card glass-card">
+                    <div class="chart-header">
+                        <span><i class="fa-solid fa-volume-high text-danger"></i> Cry Intensity History (%)</span>
+                        <span class="live-tag">LIVE DATA</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="cryIntensityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card glass-card">
+                    <div class="chart-header">
+                        <span><i class="fa-solid fa-person-breastfeeding text-blue"></i> Movement Level (m/s²)</span>
+                        <span class="live-tag">LIVE DATA</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="movementSensorChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: SMART CRADLE CONTROL ================= -->
+        <section id="cradle" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-sliders"></i> Intelligent Cradle Control Interface</h2>
+                    <p class="subtitle">Manual overrides and automated cradle response control system</p>
+                </div>
+                <div class="mode-switcher-pill">
+                    <button class="btn-pill active" id="btnAutoMode" onclick="setCradleMode('AUTO')">
+                        <i class="fa-solid fa-robot"></i> AUTO MODE
+                    </button>
+                    <button class="btn-pill" id="btnManualMode" onclick="setCradleMode('MANUAL')">
+                        <i class="fa-solid fa-hand"></i> MANUAL OVERRIDE
+                    </button>
+                </div>
+            </div>
+
+            <div class="cradle-control-layout">
+                <!-- Visual Cradle Interactive Graphic -->
+                <div class="cradle-visual-box glass-card">
+                    <h3><i class="fa-solid fa-baby-carriage"></i> Interactive Cradle Visualizer</h3>
+                    
+                    <div class="cradle-graphic-container">
+                        <div class="cradle-motion-wrapper" id="cradleMotionWrapper">
+                            <svg class="cradle-interactive-svg" viewBox="0 0 500 350">
+                                <!-- Stand structure -->
+                                <line x1="100" y1="320" x2="400" y2="320" stroke="var(--border-color)" stroke-width="8" stroke-linecap="round"/>
+                                <path d="M 150 320 L 250 80 L 350 320" fill="none" stroke="var(--card-border)" stroke-width="6"/>
+                                <circle cx="250" cy="80" r="14" fill="var(--accent-cyan)"/>
+                                
+                                <!-- Suspended Cradle Frame -->
+                                <g id="cradleSwingingAssembly">
+                                    <line x1="250" y1="80" x2="180" y2="180" stroke="var(--accent-blue)" stroke-width="4"/>
+                                    <line x1="250" y1="80" x2="320" y2="180" stroke="var(--accent-blue)" stroke-width="4"/>
+                                    <rect x="150" y="170" width="200" height="90" rx="20" fill="url(#cradleBodyGrad)" stroke="var(--accent-cyan)" stroke-width="3"/>
+                                    
+                                    <!-- Baby inside -->
+                                    <g transform="translate(180, 190)">
+                                        <!-- Pillow -->
+                                        <rect x="10" y="20" width="35" height="25" rx="5" fill="#FFF"/>
+                                        <!-- Baby head -->
+                                        <circle cx="28" cy="32" r="14" fill="#FFDFC4"/>
+                                        <path d="M 22 28 Q 28 22 34 28" fill="none" stroke="#666" stroke-width="2"/>
+                                        <!-- Blanket -->
+                                        <path d="M 40 25 Q 110 20 125 50 L 10 50 Z" fill="var(--accent-blue)" opacity="0.8"/>
+                                    </g>
+                                    
+                                    <!-- Gentle Glow effect around cradle base -->
+                                    <ellipse cx="250" cy="270" rx="100" ry="10" fill="var(--accent-cyan)" opacity="0.2" class="cradle-shadow-glow"/>
+                                </g>
+
+                                <defs>
+                                    <linearGradient id="cradleBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="rgba(14, 165, 233, 0.3)"/>
+                                        <stop offset="100%" stop-color="rgba(99, 102, 241, 0.5)"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="cradle-live-status-bar">
+                        <div class="stat-pill">
+                            <span>Status:</span> <strong id="lblMotorStatus" class="text-success">MOTOR RUNNING</strong>
+                        </div>
+                        <div class="stat-pill">
+                            <span>Current Mode:</span> <strong id="lblModeStatus">AUTO</strong>
+                        </div>
+                        <div class="stat-pill">
+                            <span>Current Speed:</span> <strong id="lblSpeedStatus">35%</strong>
+                        </div>
+                        <div class="stat-pill">
+                            <span>Motion:</span> <strong id="lblMotionStatus">Gentle Sway</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cradle Controls Panel -->
+                <div class="cradle-controls-panel glass-card">
+                    <h3><i class="fa-solid fa-sliders"></i> Control Dashboard</h3>
+
+                    <!-- Main Power Button -->
+                    <div class="control-group text-center">
+                        <button class="btn btn-power" id="btnMainMotorPower" onclick="toggleCradleMotor()">
+                            <i class="fa-solid fa-power-off"></i> <span id="btnMotorPowerText">STOP CRADLE</span>
+                        </button>
+                    </div>
+
+                    <hr class="divider">
+
+                    <!-- Speed Preset Buttons -->
+                    <div class="control-group">
+                        <label class="control-label"><i class="fa-solid fa-gauge"></i> Swing Speed Intensity</label>
+                        <div class="speed-btn-group">
+                            <button class="btn-speed" id="speedSlow" onclick="setCradleSpeed('slow', 20)">Slow (20%)</button>
+                            <button class="btn-speed active" id="speedMedium" onclick="setCradleSpeed('medium', 35)">Medium (35%)</button>
+                            <button class="btn-speed" id="speedFast" onclick="setCradleSpeed('fast', 60)">Fast (60%)</button>
+                        </div>
+                    </div>
+
+                    <!-- Speed Slider -->
+                    <div class="control-group mt-3">
+                        <div class="slider-header">
+                            <span>Custom Speed Slider</span>
+                            <span id="sliderSpeedVal" class="text-cyan">35%</span>
+                        </div>
+                        <input type="range" class="range-slider" id="cradleSpeedSlider" min="0" max="100" value="35" oninput="onSpeedSliderChange(this.value)">
+                    </div>
+
+                    <hr class="divider">
+
+                    <!-- Soothing Features (Lullaby & Warmth) -->
+                    <div class="control-group">
+                        <label class="control-label"><i class="fa-solid fa-music"></i> Soothing & Audio Features</label>
+                        
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <span class="t-title">Soothing Lullaby Audio</span>
+                                <span class="t-sub">Plays gentle white noise / lullaby music</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="toggleLullaby" checked onchange="toggleLullabyAudio(this.checked)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-row mt-3">
+                            <div class="toggle-info">
+                                <span class="t-title">Smart Soothing Mode</span>
+                                <span class="t-sub">Dynamic speed adaptation on cry pitch escalation</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="toggleSoothingMode" checked onchange="toggleSoothingMode(this.checked)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Automation Rule Note -->
+                    <div class="auto-rule-box">
+                        <i class="fa-solid fa-robot text-cyan"></i>
+                        <div>
+                            <strong>Active Prototype Automation Rules:</strong>
+                            <ul>
+                                <li>If Cry = <em>Sleepy</em> &rarr; Gentle Cradle (35%) + Lullaby ON</li>
+                                <li>If Cry = <em>Discomfort</em> &rarr; Moderate Sway + Env Check + Alert</li>
+                                <li>If Cry = <em>Abnormal</em> &rarr; Immediate Parent Alert & System Beep</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: PARENT ALERTS ================= -->
+        <section id="alerts" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-bell"></i> Parent Notification Center</h2>
+                    <p class="subtitle">History of system events, cry alerts, and environmental warnings</p>
+                </div>
+                <div class="alert-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="markAllAlertsRead()">
+                        <i class="fa-solid fa-check-double"></i> Mark All Read
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="clearAllAlerts()">
+                        <i class="fa-solid fa-trash"></i> Clear Alerts
+                    </button>
+                </div>
+            </div>
+
+            <!-- ALERT FILTERS -->
+            <div class="alert-filters glass-card">
+                <button class="filter-chip active" onclick="filterAlerts('all')">All Notifications</button>
+                <button class="filter-chip" onclick="filterAlerts('cry')">Cry Events</button>
+                <button class="filter-chip" onclick="filterAlerts('warning')">Warnings & Anomalies</button>
+                <button class="filter-chip" onclick="filterAlerts('system')">System Updates</button>
+            </div>
+
+            <!-- ALERTS LIST CONTAINER -->
+            <div class="alerts-list" id="alertsContainer">
+                <!-- Example Alert 1 -->
+                <div class="alert-card glass-card unread severity-warning" data-type="warning">
+                    <div class="alert-icon-box">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-top">
+                            <h4 class="alert-title">Attention Required — Abnormal Cry Pattern</h4>
+                            <span class="alert-time">09:42 AM</span>
+                        </div>
+                        <p class="alert-msg">High pitch acoustic spike detected (Intensity: 88%). AI classified potential discomfort or anomaly requiring parent check.</p>
+                        <div class="alert-footer">
+                            <span class="severity-tag tag-high">HIGH SEVERITY</span>
+                            <button class="btn-link" onclick="dismissAlert(this)">Mark as Read</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example Alert 2 -->
+                <div class="alert-card glass-card unread severity-info" data-type="cry">
+                    <div class="alert-icon-box">
+                        <i class="fa-solid fa-baby"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-top">
+                            <h4 class="alert-title">Baby Cry Detected — Sleepy Pattern</h4>
+                            <span class="alert-time">09:15 AM</span>
+                        </div>
+                        <p class="alert-msg">Cry pattern detected with 87% confidence rating. Smart cradle automatically initiated gentle sway motion.</p>
+                        <div class="alert-footer">
+                            <span class="severity-tag tag-info">NORMAL</span>
+                            <button class="btn-link" onclick="dismissAlert(this)">Mark as Read</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example Alert 3 -->
+                <div class="alert-card glass-card severity-system" data-type="system">
+                    <div class="alert-icon-box">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-top">
+                            <h4 class="alert-title">Automated Cradle Response Initiated</h4>
+                            <span class="alert-time">08:30 AM</span>
+                        </div>
+                        <p class="alert-msg">Gentle sway speed set to 35% and Brahms Lullaby track started by AI decision engine.</p>
+                        <div class="alert-footer">
+                            <span class="severity-tag tag-success">AUTOMATED</span>
+                            <button class="btn-link" onclick="dismissAlert(this)">Dismiss</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example Alert 4 -->
+                <div class="alert-card glass-card severity-system" data-type="warning">
+                    <div class="alert-icon-box">
+                        <i class="fa-solid fa-temperature-arrow-up"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-top">
+                            <h4 class="alert-title">Environment Threshold Check</h4>
+                            <span class="alert-time">07:50 AM</span>
+                        </div>
+                        <p class="alert-msg">Nursery temperature reached 28.4°C. Air circulation fan recommendation generated.</p>
+                        <div class="alert-footer">
+                            <span class="severity-tag tag-warning">ENVIRONMENT</span>
+                            <button class="btn-link" onclick="dismissAlert(this)">Dismiss</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 6: ANALYTICS ================= -->
+        <section id="analytics" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-chart-pie"></i> Historical Telemetry & AI Analytics</h2>
+                    <p class="subtitle">Aggregated cry frequency, temperature trends, and cradle automation statistics</p>
+                </div>
+                <div class="date-filter-group">
+                    <button class="date-btn active" onclick="setAnalyticsDateFilter('today')">Today</button>
+                    <button class="date-btn" onclick="setAnalyticsDateFilter('7days')">7 Days</button>
+                    <button class="date-btn" onclick="setAnalyticsDateFilter('30days')">30 Days</button>
+                </div>
+            </div>
+
+            <!-- ANALYTICS SUMMARY CARDS -->
+            <div class="analytics-summary-grid">
+                <div class="summary-card glass-card">
+                    <div class="summary-icon text-cyan"><i class="fa-solid fa-waveform"></i></div>
+                    <div class="summary-data">
+                        <span class="s-num" id="statDailyEvents">14</span>
+                        <span class="s-label">Daily Cry Events</span>
+                    </div>
+                </div>
+
+                <div class="summary-card glass-card">
+                    <div class="summary-icon text-blue"><i class="fa-solid fa-stopwatch"></i></div>
+                    <div class="summary-data">
+                        <span class="s-num">3.2 min</span>
+                        <span class="s-label">Avg Cry Duration</span>
+                    </div>
+                </div>
+
+                <div class="summary-card glass-card">
+                    <div class="summary-icon text-indigo"><i class="fa-solid fa-brain"></i></div>
+                    <div class="summary-data">
+                        <span class="s-num">Sleepy (65%)</span>
+                        <span class="s-label">Most Detected Cry</span>
+                    </div>
+                </div>
+
+                <div class="summary-card glass-card">
+                    <div class="summary-icon text-warning"><i class="fa-solid fa-temperature-half"></i></div>
+                    <div class="summary-data">
+                        <span class="s-num">26.8 °C</span>
+                        <span class="s-label">Avg Room Temp</span>
+                    </div>
+                </div>
+
+                <div class="summary-card glass-card">
+                    <div class="summary-icon text-success"><i class="fa-solid fa-repeat"></i></div>
+                    <div class="summary-data">
+                        <span class="s-num">28 times</span>
+                        <span class="s-label">Cradle Auto Activations</span>
+                    </div>
+                </div>
+
+                <div class="summary-card glass-card">
+                    <div class="summary-icon text-danger"><i class="fa-solid fa-bell"></i></div>
+                    <div class="summary-data">
+                        <span class="s-num">2 Alerts</span>
+                        <span class="s-label">Parent Notifications</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS CHARTS GRID -->
+            <div class="charts-grid mt-4">
+                <div class="chart-card glass-card">
+                    <div class="chart-header">
+                        <span><i class="fa-solid fa-clock text-cyan"></i> 1. Cry Events by Hour</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="cryEventsByHourChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card glass-card">
+                    <div class="chart-header">
+                        <span><i class="fa-solid fa-chart-pie text-blue"></i> 2. Cry Category Distribution</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="cryDistributionPieChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card glass-card">
+                    <div class="chart-header">
+                        <span><i class="fa-solid fa-temperature-arrow-up text-warning"></i> 3. 24-Hour Temperature Trend</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="tempTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card glass-card">
+                    <div class="chart-header">
+                        <span><i class="fa-solid fa-sliders text-success"></i> 4. Cradle Activity & Speed Timeline</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="cradleTimelineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 7: SYSTEM ARCHITECTURE ================= -->
+        <section id="architecture" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-network-wired"></i> End-to-End System Architecture</h2>
+                    <p class="subtitle">Interactive visualization of hardware sensors, signal processing, AI decision engine, and actuators</p>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE ARCHITECTURE MAP -->
+            <div class="architecture-container glass-card">
+                <div class="arch-flow-diagram">
+                    
+                    <!-- NODE 1: BABY -->
+                    <div class="arch-node node-baby" onclick="showNodeDetails('baby')">
+                        <div class="node-icon"><i class="fa-solid fa-baby"></i></div>
+                        <span class="node-title">Baby Acoustic & Motion Source</span>
+                        <span class="node-sub">Cry signal & physical movement</span>
+                    </div>
+
+                    <div class="arch-arrow">
+                        <div class="animated-pulse-line"></div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+
+                    <!-- NODE 2: MICROPHONE & SENSORS -->
+                    <div class="arch-node node-sensors" onclick="showNodeDetails('sensors')">
+                        <div class="node-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <span class="node-title">IoT Sensors (INMP441 / MPU6050 / DHT22)</span>
+                        <span class="node-sub">Audio sampling (16kHz), Temp/Hum, Accel</span>
+                    </div>
+
+                    <div class="arch-arrow">
+                        <div class="animated-pulse-line"></div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+
+                    <!-- NODE 3: AUDIO PROCESSING -->
+                    <div class="arch-node node-audio" onclick="showNodeDetails('audio')">
+                        <div class="node-icon"><i class="fa-solid fa-waveform"></i></div>
+                        <span class="node-title">Audio Processing & Filtering</span>
+                        <span class="node-sub">Noise suppression & MFCC spectrograms</span>
+                    </div>
+
+                    <div class="arch-arrow">
+                        <div class="animated-pulse-line"></div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+
+                    <!-- NODE 4: AI CRY RECOGNITION -->
+                    <div class="arch-node node-ai" onclick="showNodeDetails('ai')">
+                        <div class="node-icon"><i class="fa-solid fa-brain"></i></div>
+                        <span class="node-title">AI Cry Recognition Model</span>
+                        <span class="node-sub">CNN Neural Net pattern classifier</span>
+                    </div>
+
+                    <div class="arch-arrow">
+                        <div class="animated-pulse-line"></div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+
+                    <!-- NODE 5: ESP32 & DECISION ENGINE -->
+                    <div class="arch-node node-esp" onclick="showNodeDetails('esp')">
+                        <div class="node-icon"><i class="fa-solid fa-robot"></i></div>
+                        <span class="node-title">ESP32 & Rule Decision Engine</span>
+                        <span class="node-sub">PWM motor control & rule evaluation</span>
+                    </div>
+
+                    <div class="arch-arrow">
+                        <div class="animated-pulse-line"></div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+
+                    <!-- NODE 6: ACTUATORS BRANCH -->
+                    <div class="arch-branch-container">
+                        <div class="branch-node" onclick="showNodeDetails('motor')">
+                            <i class="fa-solid fa-gear text-cyan"></i>
+                            <span>Cradle Motor</span>
+                        </div>
+                        <div class="branch-node" onclick="showNodeDetails('speaker')">
+                            <i class="fa-solid fa-volume-high text-info"></i>
+                            <span>Speaker / Lullaby</span>
+                        </div>
+                        <div class="branch-node" onclick="showNodeDetails('alert')">
+                            <i class="fa-solid fa-mobile-screen-button text-warning"></i>
+                            <span>Parent Web Alert</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ARCHITECTURE DETAILS MODAL / BOX -->
+                <div class="arch-details-box glass-card mt-4" id="archDetailsBox">
+                    <h3 id="archDetailTitle"><i class="fa-solid fa-circle-info"></i> System Architecture Flow Overview</h3>
+                    <p id="archDetailBody">Click on any node in the architecture diagram above to view technical specifications, hardware pinouts, and signal flow details.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 8: ABOUT PROJECT ================= -->
+        <section id="about" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-circle-info"></i> About Smart Cradle AI</h2>
+                    <p class="subtitle">Building Smarter Baby Care with AI & IoT — SIH Hackathon Prototype</p>
+                </div>
+            </div>
+
+            <div class="about-grid">
+                <!-- PROBLEM CARD -->
+                <div class="about-card glass-card">
+                    <div class="about-icon text-danger"><i class="fa-solid fa-circle-exclamation"></i></div>
+                    <h3>The Problem</h3>
+                    <p>Parents and caregivers struggle to continuously monitor infants, leading to fatigue and delayed intervention. Standard cradles move blindly without understanding why a baby is crying—whether due to hunger, sleepiness, discomfort, or health distress.</p>
+                </div>
+
+                <!-- SOLUTION CARD -->
+                <div class="about-card glass-card">
+                    <div class="about-icon text-success"><i class="fa-solid fa-lightbulb"></i></div>
+                    <h3>The AI Solution</h3>
+                    <p>Smart Cradle AI integrates acoustic cry classification with environmental IoT telemetry. By recognizing emotional and physiological need patterns, the cradle automatically adjusts soothing motions, plays soothing audio, and alerts parents immediately.</p>
+                </div>
+
+                <!-- INNOVATION CARD -->
+                <div class="about-card glass-card">
+                    <div class="about-icon text-cyan"><i class="fa-solid fa-rocket"></i></div>
+                    <h3>Key Innovations</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-check text-cyan"></i> <strong>Emotion-Aware Classification:</strong> Deep learning model trained on acoustic cry spectral features.</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> <strong>Closed-Loop Automation:</strong> Dynamic PWM motor speed scaling matching detected distress level.</li>
+                        <li><i class="fa-solid fa-check text-cyan"></i> <strong>Multi-Sensor Telemetry:</strong> DHT22 ambient comfort check + MPU6050 physical movement tracking.</li>
+                    </ul>
+                </div>
+
+                <!-- FUTURE SCOPE CARD -->
+                <div class="about-card glass-card">
+                    <div class="about-icon text-indigo"><i class="fa-solid fa-compass-drafting"></i></div>
+                    <h3>Future Roadmap</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-arrow-right text-indigo"></i> Edge Impulse TinyML deployment directly on ESP32-S3 chip.</li>
+                        <li><i class="fa-solid fa-arrow-right text-indigo"></i> Mobile app with push notifications & GSM emergency fallback.</li>
+                        <li><i class="fa-solid fa-arrow-right text-indigo"></i> Personalized infant learning model adapting to individual baby cry profiles.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 9: SETTINGS & ESP32 CONFIG ================= -->
+        <section id="settings" class="page-view">
+            <div class="page-header">
+                <div>
+                    <h2><i class="fa-solid fa-gear"></i> System Settings & Hardware Integration</h2>
+                    <p class="subtitle">Configure simulated thresholds, ESP32 API endpoints, and notification preferences</p>
+                </div>
+            </div>
+
+            <div class="settings-grid">
+                <div class="settings-card glass-card">
+                    <h3><i class="fa-solid fa-wifi"></i> ESP32 Hardware Integration API</h3>
+                    <p class="sub">Configure endpoint URLs for real ESP32 microcontroller communication</p>
+                    
+                    <div class="form-group">
+                        <label>ESP32 IP Address / Hostname</label>
+                        <input type="text" class="form-input" value="192.168.1.105" id="cfgEspIp">
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label>Sensor Refresh Rate (ms)</label>
+                        <input type="number" class="form-input" value="2000" id="cfgRefreshRate">
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label>MQTT Telemetry Topic</label>
+                        <input type="text" class="form-input" value="smartcradle/telemetry" id="cfgMqttTopic">
+                    </div>
+
+                    <button class="btn btn-primary mt-3" onclick="saveSettings()">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Configuration
+                    </button>
+                </div>
+
+                <div class="settings-card glass-card">
+                    <h3><i class="fa-solid fa-code"></i> ESP32 Code Snippet Sample</h3>
+                    <p class="sub">REST API JSON endpoint response structure for IoT integration</p>
+                    <pre class="code-block"><code>{
+  "device_id": "ESP32_CRADLE_01",
+  "dht22": {
+    "temperature": 28.4,
+    "humidity": 62.0
+  },
+  "mpu6050": {
+    "accel_z": 0.12,
+    "movement": "NORMAL"
+  },
+  "inmp441": {
+    "intensity": 78,
+    "cry_detected": true
+  },
+  "motor": {
+    "state": "ON",
+    "speed": 35
+  }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= DEMO MODE MODAL & OVERLAY ================= -->
+    <div class="demo-modal-backdrop" id="demoModalBackdrop">
+        <div class="demo-modal glass-card">
+            <div class="demo-header">
+                <div class="demo-title">
+                    <i class="fa-solid fa-wand-magic-sparkles text-cyan"></i>
+                    <span>INTERACTIVE DEMO SEQUENCE IN PROGRESS</span>
+                </div>
+                <button class="demo-close-btn" onclick="stopDemoMode()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="demo-progress-bar">
+                <div class="demo-progress-fill" id="demoProgressFill" style="width: 0%;"></div>
+            </div>
+
+            <div class="demo-step-display">
+                <span class="demo-step-badge" id="demoStepNum">STEP 1 OF 8</span>
+                <h3 class="demo-step-title" id="demoStepTitle">Listening for baby cry...</h3>
+                <p class="demo-step-desc" id="demoStepDesc">Microphone capturing audio stream and analyzing ambient sound levels.</p>
+            </div>
+
+            <div class="demo-actions">
+                <button class="btn btn-outline" onclick="stopDemoMode()">Cancel Demo</button>
+                <button class="btn btn-primary" id="demoNextBtn" onclick="nextDemoStep()">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Application Script -->
+    <script src="js/app.js"></script>
+</body>
+</html>
